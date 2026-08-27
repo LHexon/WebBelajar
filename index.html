@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PlasticBank Indonesia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+<body>
+<div id="splash"><div class="splash-logo">♻</div><p>PLASTICBANK INDONESIA</p><h1>Ubah Sampah<br><span>Jadi Dampak.</span></h1><small>Memuat dashboard lingkungan...</small><div class="loader"></div></div>
+
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="brand-logo">♻</div><div><b>PlasticBank</b><small>Indonesia</small></div></div>
+  <nav>
+    <a href="#home" data-page="home" class="active">⌂ <span>Beranda</span></a>
+    <a href="#dashboard" data-page="dashboard">▦ <span>Dashboard</span></a>
+    <a href="#map" data-page="map">⌖ <span>Peta Indonesia</span></a>
+    <a href="#laporan" data-page="laporan">◫ <span>Laporan</span></a>
+    <a href="#menu" data-page="menu">☰ <span>Menu</span></a>
+    <a href="#profil" data-page="profil">◉ <span>Profil</span></a>
+  </nav>
+  <div class="side-bottom"><span class="live"></span> Data monitoring aktif<br><small>Mode demonstrasi</small></div>
+</aside>
+
+<main>
+<header class="topbar">
+  <button class="hamb" id="hamb">☰</button>
+  <div class="search">⌕ <input id="search" placeholder="Cari bank sampah, kota, atau wilayah..."></div>
+  <div class="topright"><span id="date"></span><button>🔔</button><div class="avatar">PB</div></div>
+</header>
+
+<section id="home" class="page active">
+  <div class="hero">
+    <div><p class="eyebrow">MONITORING LINGKUNGAN NASIONAL</p><h2>Jaga Indonesia,<br><span>Mulai dari Sampah.</span></h2>
+    <p>Pantau persebaran bank sampah plastik, volume pengelolaan, dan wilayah yang membutuhkan perhatian dalam satu platform.</p>
+    <div><button class="btn primary" onclick="go('dashboard')">Buka Dashboard →</button><button class="btn ghost" onclick="go('map')">Lihat Peta</button></div></div>
+    <div class="hero-art"><div>♻</div><span>🌿</span><i>🍃</i></div>
+  </div>
+  <div class="stats">
+    <div><b>🏦</b><span>Bank Sampah</span><strong data-count="1847">0</strong><small>+8,4% bulan ini</small></div>
+    <div><b>♻️</b><span>Plastik Terkelola</span><strong>28.460 <em>ton</em></strong><small>per tahun</small></div>
+    <div><b>🌱</b><span>Wilayah Terpantau</span><strong>34</strong><small>provinsi</small></div>
+    <div><b>⚠️</b><span>Zona Perhatian</span><strong>126</strong><small>lokasi prioritas</small></div>
+  </div>
+  <div class="section-head"><div><p class="eyebrow">OVERVIEW</p><h3>Kondisi Indonesia</h3></div><button class="textbtn" onclick="go('map')">Buka peta lengkap →</button></div>
+  <div class="two"><div class="panel"><div class="panelhead"><b>Hotspot Sampah Plastik</b><span class="tag warning">Perlu perhatian</span></div><div id="miniMap"></div></div>
+  <div class="panel"><div class="panelhead"><b>Aktivitas Terbaru</b><small>Hari ini</small></div>
+    <div class="activity"><i></i><div><b>Bank Sampah Hijau Lestari</b><small>Setor 128 kg plastik PET</small></div><time>08:42</time></div>
+    <div class="activity"><i class="blue"></i><div><b>Plastic Care Jakarta</b><small>Laporan wilayah diperbarui</small></div><time>08:17</time></div>
+    <div class="activity"><i class="orange"></i><div><b>Eco Point Surabaya</b><small>Zona risiko naik ke tinggi</small></div><time>07:55</time></div>
+    <div class="activity"><i></i><div><b>Bank Sampah Berseri</b><small>1,2 ton berhasil dipilah</small></div><time>07:31</time></div>
+  </div></div>
+</section>
+
+<section id="dashboard" class="page">
+<div class="section-head"><div><p class="eyebrow">DASHBOARD</p><h2>Ringkasan Nasional</h2><p class="muted">Statistik simulasi untuk prototipe aplikasi PlasticBank.</p></div><button class="btn primary" onclick="downloadReport()">↓ Ekspor CSV</button></div>
+<div class="stats four"><div><span>Total Bank Sampah</span><strong>1.847</strong><small class="up">▲ 8,4%</small></div><div><span>Aktif Bulan Ini</span><strong>1.624</strong><small class="up">▲ 5,2%</small></div><div><span>Plastik Terkumpul</span><strong>2.380 t</strong><small class="up">▲ 11,8%</small></div><div><span>Risiko Tinggi</span><strong>126</strong><small class="down">▼ 3,1%</small></div></div>
+<div class="dashgrid"><div class="panel chartpanel"><div class="panelhead"><b>Volume Plastik Terkelola</b><span class="tag success">+11,8%</span></div><canvas id="chart"></canvas></div>
+<div class="panel"><div class="panelhead"><b>Distribusi Risiko</b></div><div class="donutbox"><div class="donut"><b>1.847</b><small>lokasi</small></div><div class="legend"><span>🟢 Rendah <b>62%</b></span><span>🟡 Sedang <b>31%</b></span><span>🔴 Tinggi <b>7%</b></span></div></div></div></div>
+<div class="panel table"><div class="panelhead"><b>Provinsi dengan aktivitas tertinggi</b><small>Data simulasi</small></div><table><thead><tr><th>Provinsi</th><th>Bank Sampah</th><th>Plastik/Bulan</th><th>Status</th></tr></thead><tbody>
+<tr><td>Jawa Barat</td><td>382</td><td>486 ton</td><td><label class="status ok">Aktif</label></td></tr><tr><td>Jawa Timur</td><td>274</td><td>391 ton</td><td><label class="status ok">Aktif</label></td></tr><tr><td>DKI Jakarta</td><td>198</td><td>315 ton</td><td><label class="status ok">Aktif</label></td></tr><tr><td>Jawa Tengah</td><td>226</td><td>288 ton</td><td><label class="status ok">Aktif</label></td></tr><tr><td>Bali</td><td>117</td><td>142 ton</td><td><label class="status watch">Pantau</label></td></tr></tbody></table></div>
+</section>
+
+<section id="map" class="page"><div class="section-head"><div><p class="eyebrow">GEOSPATIAL MONITORING</p><h2>Peta Kondisi Indonesia</h2><p class="muted">Marker berikut adalah data contoh yang bisa diganti dengan database asli.</p></div><div class="filters"><button class="active" data-risk="all">Semua</button><button data-risk="low">Rendah</button><button data-risk="mid">Sedang</button><button data-risk="high">Tinggi</button></div></div>
+<div class="mapgrid"><div class="panel"><div id="mainMap"></div></div><div class="panel mapside"><h3>Legenda Risiko</h3><div class="risk low"><i></i><b>Rendah</b><small>Pengelolaan relatif baik</small></div><div class="risk mid"><i></i><b>Sedang</b><small>Butuh monitoring berkala</small></div><div class="risk high"><i></i><b>Tinggi</b><small>Prioritas intervensi</small></div><hr><h3>Ringkasan</h3><strong class="big">1.847</strong><small>bank sampah terdata</small><strong class="big">126</strong><small>zona risiko tinggi</small><strong class="big">34</strong><small>provinsi terpantau</small></div></div></section>
+
+<section id="laporan" class="page"><div class="section-head"><div><p class="eyebrow">PELAPORAN</p><h2>Laporan Lingkungan</h2><p class="muted">Laporkan kondisi sampah plastik di wilayahmu.</p></div><button class="btn primary" onclick="openReport()">＋ Buat Laporan</button></div>
+<div class="reportstats"><div>📋<b>24</b><small>Laporan baru</small></div><div>🔎<b>17</b><small>Dalam verifikasi</small></div><div>✓<b>183</b><small>Selesai bulan ini</small></div><div>⚡<b>8</b><small>Prioritas tinggi</small></div></div>
+<div class="panel table"><div class="panelhead"><b>Laporan Terbaru</b><select id="filter"><option>Semua status</option><option>Baru</option><option>Verifikasi</option><option>Selesai</option></select></div><table id="reports"><thead><tr><th>ID</th><th>Lokasi</th><th>Jenis</th><th>Status</th><th>Waktu</th></tr></thead><tbody>
+<tr><td>#PB-0281</td><td>Muara Angke, Jakarta</td><td>Penumpukan plastik</td><td><label class="status new">Baru</label></td><td>Hari ini</td></tr><tr><td>#PB-0280</td><td>Bekasi, Jawa Barat</td><td>Bank sampah tidak aktif</td><td><label class="status verify">Verifikasi</label></td><td>Hari ini</td></tr><tr><td>#PB-0279</td><td>Denpasar, Bali</td><td>Sampah pesisir</td><td><label class="status ok">Selesai</label></td><td>Kemarin</td></tr></tbody></table></div></section>
+
+<section id="menu" class="page"><div class="section-head"><div><p class="eyebrow">MENU</p><h2>Fitur PlasticBank</h2><p class="muted">Pusat akses untuk semua fitur utama.</p></div></div><div class="menugrid">
+<div class="menuitem" onclick="go('dashboard')">📊<h3>Dashboard Nasional</h3><p>Statistik bank sampah, volume plastik, dan risiko.</p></div>
+<div class="menuitem" onclick="go('map')">🗺️<h3>Peta Indonesia</h3><p>Visualisasi lokasi dan zona rawan sampah plastik.</p></div>
+<div class="menuitem" onclick="go('laporan')">📝<h3>Laporan</h3><p>Buat dan pantau laporan kondisi lingkungan.</p></div>
+<div class="menuitem">🏦<h3>Bank Sampah</h3><p>Direktori bank sampah dan status operasional.</p></div>
+<div class="menuitem">📈<h3>Analitik</h3><p>Tren pengumpulan dan performa wilayah.</p></div>
+<div class="menuitem">ℹ️<h3>Tentang</h3><p>Informasi mengenai misi dan sistem PlasticBank.</p></div>
+</div></section>
+
+<section id="profil" class="page"><div class="section-head"><div><p class="eyebrow">PROFIL</p><h2>Profil Pengguna</h2><p class="muted">Kelola informasi dan preferensi akun.</p></div></div><div class="profile panel"><div class="profile-avatar">PB</div><div><h2>PlasticBank User</h2><p>Pengamat lingkungan • Indonesia</p><span class="tag success">Akun aktif</span></div></div><div class="settings panel"><h3>Preferensi</h3><label>Nama tampilan<input value="PlasticBank User"></label><label>Email<input value="user@plasticbank.id"></label><label>Wilayah pemantauan<select><option>Indonesia</option><option>Jawa Barat</option><option>DKI Jakarta</option><option>Jawa Timur</option></select></label><button class="btn primary" onclick="alert('Pengaturan tersimpan (demo).')">Simpan Perubahan</button></div></section>
+</main></div>
+
+<div id="modal" class="modal"><div class="modalbox"><button class="close" onclick="closeReport()">×</button><h2>Buat Laporan</h2><p class="muted">Form demo — data belum dikirim ke server.</p><label>Lokasi<input id="rLocation" placeholder="Contoh: Pantai Ancol, Jakarta"></label><label>Jenis masalah<select id="rType"><option>Penumpukan plastik</option><option>Bank sampah tidak aktif</option><option>Sampah pesisir</option><option>Lainnya</option></select></label><label>Deskripsi<textarea id="rDesc" placeholder="Jelaskan kondisi yang ditemukan..."></textarea></label><button class="btn primary" onclick="submitReport()">Kirim Laporan</button></div></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="app.js"></script>
+</body></html>
